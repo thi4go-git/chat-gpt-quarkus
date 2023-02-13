@@ -1,7 +1,6 @@
 package net.ddns.cloudtecnologia.service.impl;
 
 import net.ddns.cloudtecnologia.client.Chatgpt;
-import net.ddns.cloudtecnologia.rest.dto.ResponseDTO;
 import net.ddns.cloudtecnologia.service.ChatService;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +13,7 @@ public class ChatServiceImpl implements ChatService {
     private Chatgpt client;
 
     @Override
-    public ResponseDTO obterResposta(String texto) {
+    public String obterResposta(String texto) {
         return client.responderTexto(texto);
     }
 

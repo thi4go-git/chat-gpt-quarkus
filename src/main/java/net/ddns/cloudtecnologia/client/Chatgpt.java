@@ -1,8 +1,5 @@
 package net.ddns.cloudtecnologia.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.micrometer.common.util.internal.logging.WarnThenDebugLogger;
-import net.ddns.cloudtecnologia.rest.dto.ResponseDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.*;
@@ -10,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 
 @ApplicationScoped
@@ -19,11 +17,10 @@ public class Chatgpt {
     public static final String URL = "https://api.openai.com/v1/completions";
     private String token;
 
-    public ResponseDTO responderTexto(String texto) {
+    public String responderTexto(String texto) {
 
         try {
-            // obterToken();
-
+            obterToken();
             URL loginUrl = new URL(URL);
             HttpURLConnection conexao = (HttpURLConnection) loginUrl.openConnection();
             //
@@ -49,15 +46,9 @@ public class Chatgpt {
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-                try {
-                    var mapper = new ObjectMapper();
-                    ResponseDTO responseDTO =
-                            mapper.readValue(response.toString(), ResponseDTO.class);
-
-                    return responseDTO;
-                } catch (Exception e) {
-                    System.out.println("Erro ao Gerar responseDTO (Jackzonized) " + e.getMessage());
-                }
+                byte[] ptext = response.toString().getBytes(StandardCharsets.ISO_8859_1);
+                String formatado = new String(ptext, StandardCharsets.UTF_8);
+                return formatado;
             }
         } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
@@ -65,7 +56,7 @@ public class Chatgpt {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseDTO();
+        return "Sem resposta para essa questão!";
     }
 
 
