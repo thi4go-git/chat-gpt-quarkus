@@ -20,7 +20,7 @@ public class Chatgpt {
     public String responderTexto(String texto) {
 
         try {
-            obterToken();
+            // obterToken();
             URL loginUrl = new URL(URL);
             HttpURLConnection conexao = (HttpURLConnection) loginUrl.openConnection();
             //
